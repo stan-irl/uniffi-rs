@@ -4,7 +4,7 @@
 
 // Callback function to execute a Rust task.  The Kotlin code schedules these in a coroutine then
 // invokes them.
-internal interface UniFfiRustTaskCallback : com.sun.jna.Callback {
+interface UniFfiRustTaskCallback : com.sun.jna.Callback {
     fun invoke(rustTaskData: Pointer?)
 }
 

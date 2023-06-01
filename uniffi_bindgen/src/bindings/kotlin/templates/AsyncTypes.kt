@@ -12,7 +12,7 @@
 
 // FFI type for callback handlers
 {%- for callback_param in ci.iter_future_callback_params() %}
-internal interface UniFfiFutureCallback{{ callback_param.canonical_name() }} : com.sun.jna.Callback {
+interface UniFfiFutureCallback{{ callback_param.canonical_name() }} : com.sun.jna.Callback {
     // Note: callbackData is always 0.  We could pass Rust a pointer/usize to represent the
     // continuation, but with JNA it's easier to just store it in the callback handler.
     fun invoke(_callbackData: USize, returnValue: {{ callback_param|ffi_type_name }}, callStatus: RustCallStatus.ByValue);
@@ -24,7 +24,7 @@ internal interface UniFfiFutureCallback{{ callback_param.canonical_name() }} : c
 {%- for result_type in ci.iter_async_result_types() %}
 {%- let callback_param = result_type.future_callback_param() %}
 
-internal class {{ result_type|future_callback_handler }}(val continuation: {{ result_type|future_continuation_type }})
+class {{ result_type|future_callback_handler }}(val continuation: {{ result_type|future_continuation_type }})
     : UniFfiFutureCallback{{ callback_param.canonical_name() }} {
     override fun invoke(_callbackData: USize, returnValue: {{ callback_param|ffi_type_name }}, callStatus: RustCallStatus.ByValue) {
         try {
