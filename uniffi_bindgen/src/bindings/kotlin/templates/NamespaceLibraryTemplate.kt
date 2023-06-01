@@ -16,9 +16,9 @@ private inline fun <reified Lib : Library> loadIndirect(
 // A JNA Library to expose the extern-C FFI definitions.
 // This is an implementation detail which will be called internally by the public API.
 
-internal interface _UniFFILib : Library {
+public interface _UniFFILib : Library {
     companion object {
-        internal val INSTANCE: _UniFFILib by lazy {
+        public val INSTANCE: _UniFFILib by lazy {
             loadIndirect<_UniFFILib>(componentName = "{{ ci.namespace() }}")
             .also { lib: _UniFFILib ->
                 uniffiCheckContractApiVersion(lib)
